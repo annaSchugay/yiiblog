@@ -48,7 +48,7 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+//            'id' => 'ID',
             'title' => 'Title',
             'description' => 'Description',
             'status' => 'Status',
@@ -69,7 +69,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             self::STATUS_ACTIVE => 'Опубликовано',
-            self::STATUS_DELETE => 'удалено'
+            self::STATUS_DELETE => 'Удалено'
         ];
     }
 }

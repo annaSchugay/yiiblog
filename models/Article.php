@@ -70,7 +70,7 @@ class Article extends \yii\db\ActiveRecord
     public function getStatusList(){
         return [
             self::STATUS_ACTIVE => 'Опубликовано',
-            self::STATUS_DELETE => 'удалено'
+            self::STATUS_DELETE => 'Удалено'
         ];
     }
 }

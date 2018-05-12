@@ -80,6 +80,11 @@ class m180512_084219_create_news_table extends Migration
      */
     public function Down()
     {
+        $this->dropForeignKey(
+            'fk-post-category_id',
+            'article'
+        );
+
         $this->dropTable('category');
         $this->dropTable('article');
     }

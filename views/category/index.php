@@ -28,7 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'description:ntext',
-            'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function($data){
+                    return $data->status
+                        ? '<span class="text-success">Опубликовано</span>'
+                        : '<span class="text-danger">Удалено</span>';
+                }
+            ],
             'created_by',
             'created_at',
 

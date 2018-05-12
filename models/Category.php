@@ -18,6 +18,9 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_DELETE = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +48,7 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+//            'id' => 'ID',
             'title' => 'Title',
             'description' => 'Description',
             'status' => 'Status',
@@ -60,5 +63,13 @@ class Category extends \yii\db\ActiveRecord
     public function getArticles()
     {
         return $this->hasMany(Article::className(), ['category_id' => 'id']);
+    }
+
+    public function getStatusList()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Опубликовано',
+            self::STATUS_DELETE => 'Удалено'
+        ];
     }
 }

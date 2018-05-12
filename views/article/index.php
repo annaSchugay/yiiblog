@@ -24,15 +24,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'title',
             'description:ntext',
+            'admin',
             'created_by',
             'created_at',
-            //'status',
-            //'category_id',
-
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return $data->status
+                        ? '<span class="text-success">Опубликовано</span>'
+                        : '<span class="text-danger">Удалено</span>';
+                }
+            ],
+            'category_id',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

@@ -21,8 +21,6 @@ use app\models\Category;
 
     <?= $form->field($model, 'created_by')->dropDownList([100 => 'admin', 101 => 'user' ]); ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

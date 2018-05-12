@@ -38,9 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'created_by',
-            'created_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            'created_at:relativeTime',
+            ['class' => 'yii\grid\ActionColumn']
         ],
     ]); ?>
 </div>

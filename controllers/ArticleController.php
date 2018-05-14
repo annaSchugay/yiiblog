@@ -24,8 +24,8 @@ class ArticleController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                ],
-            ],
+                ]
+            ]
         ];
     }
 
@@ -46,14 +46,14 @@ class ArticleController extends Controller
 
     /**
      * Displays a single Article model.
-     * @param integer $id
+     * @param integer $slug
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModelBySlug($slug),
         ]);
     }
 
@@ -116,6 +116,7 @@ class ArticleController extends Controller
      * @return Article the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     protected function findModel($id)
     {
         if (($model = Article::findOne($id)) !== null) {
@@ -124,4 +125,14 @@ class ArticleController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    protected function findModelBySlug($slug)
+    {
+        if (($model = Article::findOne(['slug' => $slug])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
 }

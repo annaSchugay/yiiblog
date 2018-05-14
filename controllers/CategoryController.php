@@ -24,8 +24,8 @@ class CategoryController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                ],
-            ],
+                ]
+            ]
         ];
     }
 
@@ -46,14 +46,14 @@ class CategoryController extends Controller
 
     /**
      * Displays a single Category model.
-     * @param integer $id
+     * @param integer $slug
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModelBySlug($slug),
         ]);
     }
 
@@ -119,6 +119,15 @@ class CategoryController extends Controller
     protected function findModel($id)
     {
         if (($model = Category::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findModelBySlug($slug)
+    {
+        if (($model = Category::findOne(['slug' => $slug])) !== null) {
             return $model;
         }
 

@@ -23,6 +23,9 @@ return [
         ],
         'urlManager' => [
             'showScriptName' => true,
+            'rules' => [
+                'article/<slug:\s+>' => 'article/view'
+            ]
         ],
         'user' => [
             'identityClass' => 'app\models\User',

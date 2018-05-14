@@ -39,7 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'created_by',
             'created_at:relativeTime',
-            ['class' => 'yii\grid\ActionColumn']
+            ['class' => 'yii\grid\ActionColumn',
+                'template'=>'{view} {update} {delete}',
+                'buttons'=>[
+                    'view' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'view/'.$model->slug);
+                    }
+                ]
+            ]
         ],
     ]); ?>
 </div>

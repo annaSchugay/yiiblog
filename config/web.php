@@ -48,8 +48,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<alias:\w+>' => 'site/<alias>',
-                'article/view<slug:\s+>' => 'article/view'
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'article/view/<slug:\w+>' => 'article/view',
+                'category/view/<slug:\w+>' => 'category/view',
+                '<alias:\w+>' => 'site/<alias>'
             ],
         ],
 

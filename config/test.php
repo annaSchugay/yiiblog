@@ -22,10 +22,7 @@ return [
             'basePath' => __DIR__ . '/../web/assets',
         ],
         'urlManager' => [
-            'showScriptName' => true,
-            'rules' => [
-                'article/<slug:\s+>' => 'article/view'
-            ]
+            'showScriptName' => true
         ],
         'user' => [
             'identityClass' => 'app\models\User',

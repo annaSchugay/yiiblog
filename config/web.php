@@ -49,6 +49,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '<alias:\w+>' => 'site/<alias>',
+                'article/view<slug:\s+>' => 'article/view'
             ],
         ],
 

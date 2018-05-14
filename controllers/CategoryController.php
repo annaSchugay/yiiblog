@@ -46,7 +46,7 @@ class CategoryController extends Controller
 
     /**
      * Displays a single Category model.
-     * @param integer $slug
+     * @param string $slug
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */

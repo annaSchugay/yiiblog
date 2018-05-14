@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\SluggableBehavior;
+use zabachok\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 
 /**

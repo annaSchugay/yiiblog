@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11dc19ae1bd8fd0737fec254fc20f7de",
+    "content-hash": "165d32100d4e6646144ac54c62d4b8fd",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -531,6 +531,49 @@
                 "yii2"
             ],
             "time": "2017-05-01T08:29:00+00:00"
+        },
+        {
+            "name": "zabachok/yii2-sluggable-behavior",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zabachok/yii2-sluggable-behavior.git",
+                "reference": "7d2bed2ce934b87c6b48249b5c40d34a2ee67bd0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zabachok/yii2-sluggable-behavior/zipball/7d2bed2ce934b87c6b48249b5c40d34a2ee67bd0",
+                "reference": "7d2bed2ce934b87c6b48249b5c40d34a2ee67bd0",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "zabachok\\behaviors\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniil Romanov",
+                    "email": "zabachok@zabachok.net"
+                }
+            ],
+            "description": "Поведение для транслитерации кирилицы в латиницу.",
+            "keywords": [
+                "behavor",
+                "extension",
+                "slugg",
+                "translit",
+                "yii2"
+            ],
+            "time": "2016-05-27T10:27:48+00:00"
         }
     ],
     "packages-dev": [

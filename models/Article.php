@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\SluggableBehavior;
+use zabachok\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -36,7 +36,7 @@ class Article extends \yii\db\ActiveRecord
         return [
             [
                 'class' => SluggableBehavior::className(),
-                'attribute' => 'title',
+                'attribute' => 'title'
             ],
             TimestampBehavior::className()
         ];

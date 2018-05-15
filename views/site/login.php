@@ -35,6 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <a class="btn btn-primary registration-link" href="<?= \yii\helpers\Url::to(['site/signup']) ?>">Registration</a>
+            </div>
+            <div>
+                <p>If you forgot your password you can  <a class="reset-link" href="<?= \yii\helpers\Url::to(['site/passwordResetRequestForm']) ?>">reset it</a></p>
             </div>
         </div>
 

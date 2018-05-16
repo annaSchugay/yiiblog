@@ -1,7 +1,7 @@
 <?php
 
 use yii\db\Migration;
-
+use app\models\User;
 /**
  * Handles the creation of table `user`.
  */
@@ -25,7 +25,7 @@ class m180515_093604_create_user_table extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'status' => $this->smallInteger()->notNull()->defaultValue(User::STATUS_ACTIVE),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull()
         ], $tableOptions);

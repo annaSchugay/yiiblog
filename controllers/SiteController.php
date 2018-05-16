@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\filters\AccessControl;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -151,7 +153,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionRequestPasswordReset()
+    public function actionReset()
     {
         $model = new PasswordResetRequestForm();
 
@@ -164,7 +166,7 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('requestPasswordResetToken', [
+        return $this->render('reset', [
             'model' => $model,
         ]);
     }
@@ -181,7 +183,7 @@ class SiteController extends Controller
     {
         try {
             $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
+        } catch (InvalidArgumentException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
@@ -190,7 +192,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        return $this->render('resetPassword',
+        return $this->render('reset-password',
             [
                 'model' => $model
             ]

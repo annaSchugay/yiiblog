@@ -1,5 +1,8 @@
 <?php
 
+/* @var $user app\models\SignUpForm
+ * @var $password_reset_token app\models\User*/
+
 use yii\helpers\Html;
 
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);

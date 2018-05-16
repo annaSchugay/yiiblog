@@ -8,7 +8,7 @@ use yii\base\Model;
 /**
  * Signup form
  */
-class SignupForm extends Model
+class SignUpForm extends Model
 {
 
     public $username;

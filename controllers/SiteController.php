@@ -11,8 +11,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\SignupForm;
-use app\models\PasswordResetRequestForm;
+use app\models\SignUpForm;
+use app\models\SendEmailForm;
 use app\models\ResetPasswordForm;
 
 class SiteController extends Controller
@@ -31,6 +31,11 @@ class SiteController extends Controller
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'controllers' => 'site',
+                        'actions' => ['index', 'search', 'send-email', 'reset-password']
                     ],
                 ],
             ],
@@ -133,7 +138,7 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
-        $model = new SignupForm();
+        $model = new SignUpForm();
 
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -155,7 +160,7 @@ class SiteController extends Controller
      */
     public function actionReset()
     {
-        $model = new PasswordResetRequestForm();
+        $model = new SendEmailForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -197,5 +202,25 @@ class SiteController extends Controller
                 'model' => $model
             ]
         );
+    }
+
+    public function actionSendEmail()
+    {
+        $model = new sendEmailForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                if($model->sendEmail()):
+                    Yii::$app->getSession()->setFlash('success', 'Проверьте email');
+                    return $this->goHome();
+                    else:
+                        Yii::$app->getSession()->setFlash('error', 'Нельзя сбросить пароль');
+                endif;
+            }
+        }
+
+        return $this->render('sendEmail', [
+            'model' => $model,
+        ]);
     }
 }

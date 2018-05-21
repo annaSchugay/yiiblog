@@ -28,10 +28,11 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
             'useFileTransport' => true,
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+                'from' => 'robot@devreadwrite.com'
+            ]
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -48,10 +49,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<alias:\w+>' => 'site/<alias>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 'article/view/<slug:\w+>' => 'article/view',
-                'category/view/<slug:\w+>' => 'category/view',
-                '<alias:\w+>' => 'site/<alias>'
+                'category/view/<slug:\w+>' => 'category/view'
             ],
         ],
 

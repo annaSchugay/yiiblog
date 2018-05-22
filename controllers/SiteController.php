@@ -2,9 +2,12 @@
 
 namespace app\controllers;
 
+use PHPUnit\Framework\Error\Error;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\db\Exception;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
@@ -12,8 +15,9 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\SignUpForm;
-use app\models\SendEmailForm;
+use app\models\SendEmailResetPasswordForm;
 use app\models\ResetPasswordForm;
+use yii\mail\MailerInterface;
 
 class SiteController extends Controller
 {
@@ -64,11 +68,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         return $this->render('index');
@@ -138,13 +137,17 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
-        $model = new SignUpForm();
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+            try {
+                $user = $model;
+                Yii::$app->session->setFlash('success', 'Check your email to confirm the registration.');
+                $this->sendEmailConfirm($user);
+                return $this->goHome();
+            } catch (\RuntimeException $e){
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
 
@@ -153,27 +156,20 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Requests password reset.
-     *
-     * @return mixed
-     */
-    public function actionReset()
+    public function sendEmailConfirm($user)
     {
-        $model = new SendEmailForm();
+        try {
+            return Yii::$app
+                ->mailer
+                ->compose('confirmSignUpToken-html', ['password_reset_token' => $user])
+                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                ->setTo($user->email)
+                ->setSubject('Registration confirm')
+                ->send();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-                return $this->goHome();
-            } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
-            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
-
-        return $this->render('reset', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -204,17 +200,17 @@ class SiteController extends Controller
         );
     }
 
-    public function actionSendEmail()
+    public function actionSendEmailResetPassword()
     {
-        $model = new sendEmailForm();
+        $model = new SendEmailResetPasswordForm();
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
                 if($model->sendEmail()):
                     Yii::$app->getSession()->setFlash('success', 'Проверьте email');
                     return $this->goHome();
-                    else:
-                        Yii::$app->getSession()->setFlash('error', 'Нельзя сбросить пароль');
+                else:
+                    Yii::$app->getSession()->setFlash('error', 'Нельзя сбросить пароль');
                 endif;
             }
         }

@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\models\User;
 
 /**
  * Signup form
@@ -35,24 +36,21 @@ class SignUpForm extends Model
         ];
     }
 
-    /**
-     * Signs user up.
-     *
-     * @return User|null the saved model or null if saving fails
-     */
-    public function signup()
+    public function saveUser()
     {
-
-        if (!$this->validate()) {
-            return null;
-        }
-
         $user = new User();
         $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
         $user->generateAuthKey();
-        return $user->save() ? $user : null;
-    }
+        $user->setPassword($this->password);
+        $user->email = $this->email;
+        $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $user->status = User::STATUS_WAITING;
+        $user->save();
+        if (!$user->save()) {
+            throw new \RuntimeException('Saving error.');
+        }
 
+        return $user;
+
+    }
 }

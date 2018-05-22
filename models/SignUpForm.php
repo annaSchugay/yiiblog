@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use app\models\User;
+use yii\db\Exception;
 
 /**
  * Signup form
@@ -45,12 +46,11 @@ class SignUpForm extends Model
         $user->email = $this->email;
         $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
         $user->status = User::STATUS_WAITING;
-        $user->save();
         if (!$user->save()) {
             throw new \RuntimeException('Saving error.');
         }
 
         return $user;
-
     }
+
 }

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use PHPUnit\Framework\Error\Error;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -138,14 +139,12 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
+        if ($model->load(Yii::$app->request->post())) {
             try {
-                $user = $model;
-                Yii::$app->session->setFlash('success', 'Check your email to confirm the registration.');
+                $user = $model->saveUser();
                 $this->sendEmailConfirm($user);
                 return $this->goHome();
-            } catch (\RuntimeException $e){
+            } catch (\RuntimeException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
@@ -159,17 +158,31 @@ class SiteController extends Controller
     public function sendEmailConfirm($user)
     {
         try {
-            return Yii::$app
+            Yii::$app
                 ->mailer
-                ->compose('confirmSignUpToken-html', ['password_reset_token' => $user])
+                ->compose('confirmSignUpToken-html', ['user' => $user])
                 ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
                 ->setTo($user->email)
                 ->setSubject('Registration confirm')
                 ->send();
 
+            Yii::$app->session->setFlash('success', 'Check your email to confirm the registration.');
         } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            echo 'Caught exception: ', $e->getMessage(), "\n";
         }
+    }
+
+    public function actionConfirmEmail($token)
+    {
+        $user = User::findInactiveByPasswordResetToken($token);
+        $user->removePasswordResetToken();
+        $user->status = User::STATUS_ACTIVE;
+        if($user->save()){
+            Yii::$app->session->setFlash('success', 'УИ!!! УИ!!!!');
+        } else {
+            Yii::$app->session->setFlash('error', 'Все плохо, мы опять облажались!');
+        }
+        return $this->goHome();
     }
 
     /**
@@ -206,7 +219,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
-                if($model->sendEmail()):
+                if ($model->sendEmail()):
                     Yii::$app->getSession()->setFlash('success', 'Проверьте email');
                     return $this->goHome();
                 else:

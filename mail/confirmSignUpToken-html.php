@@ -1,11 +1,12 @@
 <?php
 
-/* @var $user app\models\SignUpForm
- * @var $password_reset_token app\models\User*/
+/**
+ * @var $user app\models\User
+ */
 
 use yii\helpers\Html;
 
-$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/index', 'token' => $user->password_reset_token]);
+$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['/site/confirm-email', 'token' => $user->password_reset_token]);
 ?>
 
 <div class="confirm-signup">

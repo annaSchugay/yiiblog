@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a class="btn btn-primary registration-link" href="<?= \yii\helpers\Url::to(['site/signup']) ?>">Registration</a>
             </div>
             <div>
-                <p>If you forgot your password you can  <a class="reset-link" href="<?= \yii\helpers\Url::to(['site/send-email']) ?>">reset it</a></p>
+                <p>If you forgot your password you can  <a class="reset-link" href="<?= \yii\helpers\Url::to(['site/send-email-reset-password']) ?>">reset it</a></p>
             </div>
         </div>
 

@@ -6,11 +6,12 @@ use Yii;
 use yii\base\Model;
 use yii\db\conditions\NotCondition;
 use yii\db\Exception;
+use yii\helpers\Html;
 
 /**
  * Password reset request form
  */
-class SendEmailForm extends Model
+class SendEmailResetPasswordForm extends Model
 {
     public $email;
 
@@ -68,9 +69,9 @@ class SendEmailForm extends Model
         $this->updateToken($user);
         return Yii::$app
             ->mailer
-            ->compose('passwordResetToken-html', ['user' => $user])
+            ->compose('confirnSignUpToken-html', ['user' => $user])
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
+            ->setTo ($this->email)
             ->setSubject('Password reset for ' . Yii::$app->name)
             ->send();
     }

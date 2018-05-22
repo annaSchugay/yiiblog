@@ -28,11 +28,14 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
-            'messageConfig' => [
-                'charset' => 'UTF-8',
-                'from' => 'robot@devreadwrite.com'
-            ]
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => 'anya.schugay@gmail.com',
+                'password' => 'canefron1966',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

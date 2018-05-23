@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'created_by',
             'created_at:relativeTime',
-            'slug',
             [
                 'attribute' => 'status',
                 'format' => 'raw',
@@ -44,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template'=>'{view} {update} {delete}',
                 'buttons'=>[
                     'view' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'view/'.$model->slug);
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'view/?slug='.$model->slug);
                     }
                 ]
             ]

@@ -1,115 +1,95 @@
-html,
-body {
-    height: 100%;
-}
+img {
+  max-width: 100%;
+  height: auto; }
 
-.wrap {
-    min-height: 100%;
-    height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
-}
+.pagination {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+  .pagination li {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+            flex-shrink: 0; }
+    .pagination li.active a {
+      background-color: #23527c !important; }
+    .pagination li > * {
+      width: 100%;
+      text-align: center; }
 
-.wrap > .container {
-    padding: 70px 15px 20px;
-}
+.list-articles {
+  -webkit-box-ordinal-group: 3;
+  -webkit-order: 2;
+      -ms-flex-order: 2;
+          order: 2; }
+  .list-articles .article-item {
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
+    padding: 15px; }
+    .list-articles .article-item:not(:first-child) {
+      margin-top: 30px; }
+    .list-articles .article-item h3 {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 15px 0; }
+    .list-articles .article-item .button {
+      display: inline-block;
+      background-color: #23527c;
+      color: #fff;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      border: 1px solid #23527c;
+      -webkit-border-radius: 5px;
+              border-radius: 5px;
+      margin-top: 15px;
+      width: 50%;
+      min-width: 200px;
+      max-width: 300px;
+      text-align: center;
+      -webkit-transition: all 0.5s;
+      transition: all 0.5s; }
+      .list-articles .article-item .button:hover {
+        background-color: transparent;
+        color: #23527c;
+        text-decoration: none; }
 
-.footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-}
-
-.jumbotron {
-    text-align: center;
-    background-color: transparent;
-}
-
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-}
-
-.not-set {
-    color: #c55;
-    font-style: italic;
-}
-
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    padding-left: 5px;
-}
-
-a.asc:after {
-    content: /*"\e113"*/ "\e151";
-}
-
-a.desc:after {
-    content: /*"\e114"*/ "\e152";
-}
-
-.sort-numerical a.asc:after {
-    content: "\e153";
-}
-
-.sort-numerical a.desc:after {
-    content: "\e154";
-}
-
-.sort-ordinal a.asc:after {
-    content: "\e155";
-}
-
-.sort-ordinal a.desc:after {
-    content: "\e156";
-}
-
-.grid-view th {
-    white-space: nowrap;
-}
-
-.hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999;
-}
-
-.error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
-}
-
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    padding: 15px;
-    border: none;
-}
-
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 15px;
-    }
-}
-
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
-    text-decoration: none;
-}
-
-.nav > li > form > button.logout:focus {
-    outline: none;
-}
+.categories-list {
+  -webkit-box-ordinal-group: 2;
+  -webkit-order: 1;
+      -ms-flex-order: 1;
+          order: 1;
+  border: 1px solid #bbb; }
+  .categories-list li {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 10px; }
+    .categories-list li:not(:first-child) {
+      border-top: 1px solid #ccc; }
+    .categories-list li .articles-count {
+      padding: 3px;
+      width: 30px;
+      text-align: center;
+      background-color: #00a65a;
+      -webkit-border-radius: 40%;
+              border-radius: 40%;
+      color: #fff; }

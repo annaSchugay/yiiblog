@@ -2,23 +2,23 @@
 
 namespace app\controllers;
 
+use app\models\Category;
 use app\models\User;
-use PHPUnit\Framework\Error\Error;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\db\Exception;
 use yii\filters\AccessControl;
-use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\Article;
 use app\models\ContactForm;
 use app\models\SignUpForm;
 use app\models\SendEmailResetPasswordForm;
 use app\models\ResetPasswordForm;
-use yii\mail\MailerInterface;
+use yii\data\ActiveDataProvider;
 
 class SiteController extends Controller
 {
@@ -40,7 +40,7 @@ class SiteController extends Controller
                     [
                         'allow' => true,
                         'controllers' => 'site',
-                        'actions' => ['index', 'search', 'send-email', 'reset-password']
+                        'actions' => ['index', 'search', 'send-email', 'reset-password', 'uploads']
                     ],
                 ],
             ],
@@ -62,6 +62,24 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'upload' => [
+                'class' => 'trntv\filekit\actions\UploadAction',
+                'multiple' => true,
+                'disableCsrf' => true,
+                'responseFormat' => Response::FORMAT_JSON,
+                'responsePathParam' => 'path',
+                'responseBaseUrlParam' => 'base_url',
+                'responseUrlParam' => 'url',
+                'responseDeleteUrlParam' => 'delete_url',
+                'responseMimeTypeParam' => 'type',
+                'responseNameParam' => 'name',
+                'responseSizeParam' => 'size',
+                'deleteRoute' => 'delete',
+                'fileStorage' => 'fileStorage', // Yii::$app->get('fileStorage')
+                'fileStorageParam' => 'fileStorage', // ?fileStorage=someStorageComponent
+                'sessionKey' => '_uploadedFiles',
+                'allowChangeFilestorage' => false
+            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -71,7 +89,19 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $articleDataProvider = new ActiveDataProvider([
+            'query' => Article::find()->where(['status' => Article::STATUS_ACTIVE])->orderBy('created_at DESC'),
+            'pagination' => [
+                'pageSize' => Article::PER_PAGE,
+            ],
+        ]);
+        $categoryDataProvider = new ActiveDataProvider([
+            'query' => Category::find()->where(['status' => Category::STATUS_ACTIVE])->orderBy('title ASC')
+        ]);
+        return $this->render('index', [
+            'articleDataProvider' => $articleDataProvider,
+            'categoryDataProvider' => $categoryDataProvider
+        ]);
     }
 
     /**
@@ -177,7 +207,7 @@ class SiteController extends Controller
         $user = User::findInactiveByPasswordResetToken($token);
         $user->removePasswordResetToken();
         $user->status = User::STATUS_ACTIVE;
-        if($user->save()){
+        if ($user->save()) {
             Yii::$app->session->setFlash('success', 'УИ!!! УИ!!!!');
         } else {
             Yii::$app->session->setFlash('error', 'Все плохо, мы опять облажались!');

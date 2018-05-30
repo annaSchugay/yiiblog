@@ -1,53 +1,55 @@
 <?php
 
-/* @var $this yii\web\View */
+/* @var $this yii\web\View
+ * @var $articleDataProvider yii\data\ActiveDataProvider
+ * @var $categoryDataProvider yii\data\ActiveDataProvider
+ */
 
-$this->title = 'My Yii Application';
+
+use yii\widgets\ListView;
+
+$this->title = 'IT blog';
+
 ?>
-<div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
+<body class="<?= $this->context = "home-page"; ?>">
+<div class="col-sm-8 col-md-8 col-lg-8">
+    <?php echo ListView::widget([
+        'dataProvider' => $articleDataProvider,
+        'itemView' => '_list-articles',
+        'emptyText' => 'В блоге пока нет статей',
+        'emptyTextOptions' => [
+            'tag' => 'p',
+            'class' => 'no-articles-notification'
+        ],
+        'itemOptions' => [
+            'tag' => 'div',
+            'class' => 'article-item',
+        ],
+        'sorter' => [
+            'attributes'=>['id','name'],
+            'sort'=>'ASC',
+        ],
+        'layout' => "<div class='list-articles'>{items}</div>\n{pager}",
+        'pager' => [
+            'maxButtonCount' => 5,
+        ]
+    ]);
+    ?>
+</div>
+<div class="col-sm-4 col-md-4 col-lg-4">
+    <?php echo ListView::widget([
+        'dataProvider' => $categoryDataProvider,
+        'itemView' => '_list-categories',
+        'options' => [
+            'tag' => 'ul',
+            'class' => 'categories-list',
+        ],
+        'itemOptions' => [
+            'tag' => 'li',
+            'class' => 'category-title',
+        ],
+        'layout' => "{items}",
+        'summary' => false
+    ]);
+    ?>
 </div>

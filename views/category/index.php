@@ -24,7 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'attribute'=>'thumbnailUrl',
+                'value'=>$model->thumbnailUrl,
+                'format' => ['image',['width'=>'100']],
+            ],
             'id',
             'title',
             'description:ntext',
@@ -44,6 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons'=>[
                     'view' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'view/'.$model->slug);
+                    },
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', 'update/?slug='.$model->slug);
                     }
                 ]
             ]

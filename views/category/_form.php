@@ -21,6 +21,13 @@ use app\models\Category;
 
     <?= $form->field($model, 'created_by')->dropDownList([100 => 'admin', 101 => 'user' ]); ?>
 
+    <?= $form->field($model, 'thumbnail')->widget(
+        \trntv\filekit\widget\Upload::className(),
+        [
+            'url' => ['/site/upload'],
+            'maxFileSize' => 5000000, // 5 MiB
+        ]); ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

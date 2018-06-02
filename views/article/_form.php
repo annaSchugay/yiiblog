@@ -7,7 +7,7 @@ use app\models\Article;
 use app\models\Category;
 
 /* @var $this yii\web\View */
-/* @var $this yii\web\ArrayHelper */
+/* @var $this yii\helpers\ArrayHelper */
 /* @var $model app\models\Article */
 /* @var $model app\models\Category */
 /* @var $form yii\widgets\ActiveForm */
@@ -21,13 +21,20 @@ use app\models\Category;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'created_by')->dropDownList([100 => 'admin', 101 => 'user' ]); ?>
+    <?= $form->field($model, 'created_by')->dropDownList([100 => 'admin', 101 => 'user']); ?>
 
     <?= $form->field($model, 'status')->dropDownList(Article::getStatusList()) ?>
 
-    <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(),'id', 'title'),
+    <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'id', 'title'),
         ['prompt' => 'Выберите категорию']
     ) ?>
+
+    <?= $form->field($model, 'thumbnail')->widget(
+        \trntv\filekit\widget\Upload::className(),
+        [
+            'url' => ['/site/upload'],
+            'maxFileSize' => 5000000, // 5 MiB
+        ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

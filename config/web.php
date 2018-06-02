@@ -9,7 +9,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -47,18 +47,26 @@ $config = [
             ],
         ],
         'db' => $db,
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'upload' => 'site/upload',
                 '<alias:\w+>' => 'site/<alias>',
+
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 'article/view/<slug:\w+>' => 'article/view',
                 'category/view/<slug:\w+>' => 'category/view'
             ],
         ],
-
+        'fileStorage' => [
+            'class' => 'trntv\filekit\Storage',
+            'baseUrl' => '@web/uploads',
+            'filesystem'=> function() {
+                $adapter = new \League\Flysystem\Adapter\Local('uploads');
+                return new League\Flysystem\Filesystem($adapter);
+            }
+        ]
     ],
     'params' => $params,
 ];

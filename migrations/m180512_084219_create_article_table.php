@@ -42,7 +42,6 @@ class m180512_084219_create_article_table extends Migration
             'category_id'
         );
 
-
     }
 
     /**

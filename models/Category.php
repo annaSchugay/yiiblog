@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
 use zabachok\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -22,6 +23,8 @@ class Category extends \yii\db\ActiveRecord
 {
     const STATUS_ACTIVE = 1;
     const STATUS_DELETE = 0;
+    public $image;
+    public $thumbnail;
 
     /**
      * {@inheritdoc}
@@ -38,7 +41,13 @@ class Category extends \yii\db\ActiveRecord
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
             ],
-            TimestampBehavior::className()
+            TimestampBehavior::className(),
+            [
+                'class' => UploadBehavior::className(),
+                'attribute' => 'thumbnail',
+                'pathAttribute' => 'thumbnail_path',
+                'baseUrlAttribute' => 'thumbnail_base_url'
+            ]
         ];
     }
 
@@ -53,6 +62,8 @@ class Category extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['status', 'created_by', 'created_at'], 'integer'],
             [['title'], 'string', 'max' => 100],
+            [['slug', 'thumbnail_base_url', 'thumbnail_path'], 'string', 'max' => 1024],
+            [['thumbnail'], 'safe']
         ];
     }
 
@@ -68,6 +79,7 @@ class Category extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_by' => 'Created By',
             'created_at' => 'Created At',
+            'thumbnail' => 'Thumbnail'
         ];
     }
 
@@ -85,5 +97,9 @@ class Category extends \yii\db\ActiveRecord
             self::STATUS_ACTIVE => 'Опубликовано',
             self::STATUS_DELETE => 'Удалено'
         ];
+    }
+
+    public function getThumbnailUrl() {
+        return $this->thumbnail_base_url . '/' . $this->thumbnail_path;
     }
 }
